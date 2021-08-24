@@ -1,0 +1,41 @@
+* About
+
+This is a shell wrapper around getopt, a part of the [[https://en.wikipedia.org/wiki/Util-linux][util-linux]]
+package. It makes getopt more friendly: corresponding short and long
+options can be defined together.
+
+Provided a list of option definitions it translates those into values
+of getopt's =-o= and =-l= options. You're free to use any regular
+getopt options (aside =-o=, =-l= and their long counterparts) after
+the list of option definitions.
+
+Compare:
+
+- getopt :: =getopt -o hb:n: -l help,base:,fzf ...=
+- jetopt :: =jetopt hhelp bbase: n: .fzf ...=
+
+jetopt treats arguments as option definitions until the first dash be
+it either a getopt's option or =--=.
+
+* Option definition
+
+|----------------+------------+-----------+----------------|
+|                | short only | long only | short and long |
+|----------------+------------+-----------+----------------|
+| flag           | h          | .help     | hhelp          |
+| required value | b:         | .base:    | bbase:         |
+| optional value | b::        | .base::   | bbase::        |
+|----------------+------------+-----------+----------------|
+
+Namely, the first char is either a short option or a dot if we only
+declare a long option, the optional tailing colons have the same
+meaning as in getopt, anything in between is the long option if
+present.
+
+* Scanning mode
+
+In getopt you can change the [[https://manpages.ubuntu.com/manpages/focal/en/man1/getopt.1.html#scanning%20modes][scanning mode]] with =+= or =-= as the
+first char in =-o= value. With jetopt use =​,+= or =​,-= for that:
+
+- getopt :: =getopt -o +hd: help,date: ...=
+- jetopt :: =jetopt ,+ hhelp ddate: ...=
