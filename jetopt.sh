@@ -34,5 +34,5 @@ jetopt () {
         test -z "${s:1}" || long+=,$_$type
     done
 
-    echo getopt -o "$mode$short" -l "${long:1}" "$@"
+    getopt -o "$mode$short" -l "${long:1}" "$@"
 }
