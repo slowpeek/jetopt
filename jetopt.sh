@@ -5,33 +5,34 @@
 # Homepage: https://github.com/slowpeek/jetopt
 
 jetopt () {
-    local s type mode='' short='' long=''
+    local arg type mode='' short='' long=''
 
-    while (($#)); do
-        # Break on any literal option or '--'
-        [[ ! $1 == -* ]] || break
+    while (( $# )); do
+        arg=$1
 
-        s=$1
+        case $arg in
+            -*)
+                # Break on any literal option or '--'
+                break ;;
+
+            ,*)
+                # Scanning mode.
+                [[ $arg == ,[+-] ]] && mode=${arg:1} ;;
+
+            *)
+                # Option type.
+                type=${arg##*[!:]}
+                arg=${arg%"$type"}
+
+                # Short option, if present.
+                [[ $arg == .* ]] || short+=${arg::1}$type
+                arg=${arg:1}
+
+                # Long option, if present.
+                [[ -z $arg ]] || long+=,$arg$type
+        esac
+
         shift
-
-        # Scanning mode.
-        if [[ $s == ,* ]]; then
-            [[ ! $s == ,[+-] ]] || mode=${s:1}
-            continue
-        fi
-
-        # Option type.
-        type=''
-        if [[ $s == *: ]]; then
-            [[ $s == *:: ]] && type=:: || type=:
-            s=${s%$type}
-        fi
-
-        # Short option, if present.
-        [[ $s == .* ]] || short+=${s::1}$type
-
-        # Long option, if present.
-        test -z "${s:1}" || long+=,$_$type
     done
 
     getopt -o "$mode$short" -l "${long:1}" "$@"
