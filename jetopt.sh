@@ -1,7 +1,7 @@
 # -*- mode: sh; sh-shell: bash; -*-
 # shellcheck shell=bash
 
-# MIT license (c) 2021 https://github.com/slowpeek
+# MIT license (c) 2021-2022 https://github.com/slowpeek
 # Homepage: https://github.com/slowpeek/jetopt
 
 jetopt () {
