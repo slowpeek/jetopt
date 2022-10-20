@@ -6,7 +6,7 @@
 
 jetopt () {
     # shellcheck disable=SC2034
-    local -r JETOPT_VERSION=git
+    local -r JETOPT_VERSION=0.1
     # --
 
     local arg type mode='' short='' long=''
