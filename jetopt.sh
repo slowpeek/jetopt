@@ -1,5 +1,4 @@
-# -*- mode: sh; sh-shell: bash; -*-
-# shellcheck shell=bash
+#!/usr/bin/env bash
 
 # MIT license (c) 2021-2022 https://github.com/slowpeek
 # Homepage: https://github.com/slowpeek/jetopt
