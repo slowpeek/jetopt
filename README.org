@@ -32,7 +32,7 @@ declare a long option, the optional tailing colons have the same
 meaning as in getopt, anything in between is the long option if
 present.
 
-* Scanning mode
+* Getopt scanning mode
 
 In getopt you can change the [[https://manpages.ubuntu.com/manpages/focal/en/man1/getopt.1.html#scanning%20modes][scanning mode]] with =+= or =-= as the
 first char in =-o= value. With jetopt use =​,+= or =​,-= for that:
