@@ -39,3 +39,26 @@ first char in =-o= value. With jetopt use =​,+= or =​,-= for that:
 
 - getopt :: =getopt -o +hd: help,date: ...=
 - jetopt :: =jetopt ,+ hhelp ddate: ...=
+
+* Standalone mode
+
+The script can be used in two ways: either included in your code to
+utilize the =jetopt= function or as a cli tool to convert from jetopt
+to getopt options syntax.
+
+In standalone mode jetopt recognizes such options:
+
+- =-h=, =--help= :: Show usage
+- =-V=, =--version= :: Show version
+
+If the first arg is not among those, the args list is treated as input
+to the jetopt function i.e. short and long options description in
+jetopt syntax. The output is values for corresponding -o and -l getopt
+options.
+
+Sample output:
+
+#+begin_example
+  > jetopt.sh hhelp .label: q Vversion
+  -o hqV -l help,label:,version
+#+end_example
