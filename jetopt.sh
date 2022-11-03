@@ -44,14 +44,10 @@ jetopt () {
 [[ ${BASH_SOURCE[0]} == "$0" ]] || return
 
 version() {
-    local line
-
-    while read -r line; do
-        if [[ $line =~ JETOPT_VERSION=([^ ;]+) ]]; then
-            echo "jetopt ${BASH_REMATCH[1]}"
-            exit
-        fi
-    done < <(declare -f jetopt)
+    if [[ $(declare -f jetopt) =~ JETOPT_VERSION=([^ ;]+) ]]; then
+        echo "jetopt ${BASH_REMATCH[1]}"
+        exit
+    fi
 
     exit 1
 }
