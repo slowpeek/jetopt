@@ -81,11 +81,9 @@ EOF
 
 case $1 in
     -V|--version)
-        version
-        : ;;
+        version ;;
     -h|--help)
-        usage
-        : ;;
+        usage ;;
 esac
 
 getopt() {
