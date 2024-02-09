@@ -72,7 +72,16 @@ main() {
         shift
     done
 
-    echo -o "$mode$short" -l "${long:1}" "$@"
+    local args=()
+
+    if [[ -n $short || -n $long ]]; then
+        short=$mode$short
+
+        [[ -z $short ]] || args+=(-o "$short")
+        [[ -z $long ]] || args+=(-l "${long:1}")
+    fi
+
+    echo "${args[@]}" "$@"
 }
 
 [[ ! ${BASH_SOURCE[0]} == "$0" ]] || main "$@"
