@@ -1,8 +1,6 @@
 * About
 
-This is a shell wrapper around getopt, a part of the [[https://en.wikipedia.org/wiki/Util-linux][util-linux]]
-package. It makes getopt more friendly: corresponding short and long
-options can be defined together.
+This is a friendly options formatter for getopt ([[https://en.wikipedia.org/wiki/Util-linux][util-linux]] package).
 
 Provided a list of option definitions it translates those into values
 of getopt's =-o= and =-l= options. You're free to use any regular
@@ -11,8 +9,8 @@ the list of option definitions.
 
 Compare:
 
-- getopt :: =getopt -o hb:n: -l help,base:,fzf ...=
-- jetopt :: =jetopt hhelp bbase: n: .fzf ...=
+- getopt :: =-o hb:n: -l help,base:,fzf ..=
+- jetopt :: =hhelp bbase: n: .fzf ..=
 
 jetopt treats arguments as option definitions until the first dash be
 it either a getopt's option or =--=.
@@ -37,28 +35,16 @@ present.
 In getopt you can change the [[https://manpages.ubuntu.com/manpages/focal/en/man1/getopt.1.html#scanning%20modes][scanning mode]] with =+= or =-= as the
 first char in =-o= value. With jetopt use =​,+= or =​,-= for that:
 
-- getopt :: =getopt -o +hd: help,date: ...=
-- jetopt :: =jetopt ,+ hhelp ddate: ...=
+- getopt :: =-o +hd: help,date: ..=
+- jetopt :: =​,+ hhelp ddate: ..=
 
-* Standalone mode
+* Supposed use
 
-The script can be used in two ways: either included in your code to
-utilize the =jetopt= function or as a cli tool to convert from jetopt
-to getopt options syntax.
-
-In standalone mode jetopt recognizes such options:
-
-- =-h=, =--help= :: Show usage
-- =-V=, =--version= :: Show version
-
-If the first arg is not among those, the args list is treated as input
-to the jetopt function i.e. short and long options description in
-jetopt syntax. The output is values for corresponding -o and -l getopt
-options.
-
-Sample output:
+Convert some jetopt expression to getopt with the tool, use the result with
+getopt and keep the original expression in a comment above to make it easy to
+refine later:
 
 #+begin_example
-  > jetopt.sh hhelp .label: q Vversion
-  -o hqV -l help,label:,version
+  # jetopt hhelp .label: q Vversion
+  getopt -o hqV -l help,label:,version ..
 #+end_example
