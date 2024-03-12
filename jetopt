@@ -77,7 +77,18 @@ main() {
     if [[ -n $short || -n $long ]]; then
         short=$mode$short
 
-        [[ -z $short ]] || args+=(-o "$short")
+        if [[ -z $short ]]; then
+            # -o must always be set, even if the value is empty:
+            # > getopt -o '' -l opt --
+            #  --
+            # > getopt -l opt --
+            # getopt: missing optstring argument
+            # Try 'getopt --help' for more information.
+            args+=(-o "''")
+        else
+            args+=(-o "$short")
+        fi
+
         [[ -z $long ]] || args+=(-l "${long:1}")
     fi
 
