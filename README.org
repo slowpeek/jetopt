@@ -1,6 +1,6 @@
 * About
 
-This is a friendly options formatter for getopt ([[https://en.wikipedia.org/wiki/Util-linux][util-linux]] package).
+This is a friendly options formatter for =getopt= from the [[https://en.wikipedia.org/wiki/Util-linux][util-linux]] package.
 
 Provided a list of option definitions it translates those into values
 of getopt's =-o= and =-l= options. You're free to use any regular
@@ -25,14 +25,13 @@ it either a getopt's option or =--=.
 | optional value | b::        | .base::   | bbase::        |
 |----------------+------------+-----------+----------------|
 
-Namely, the first char is either a short option or a dot if we only
-declare a long option, the optional tailing colons have the same
-meaning as in getopt, anything in between is the long option if
-present.
+Namely, the first char is either a short option or a dot, if we only declare a
+long option. The optional trailing colons have the same meaning as in
+getopt. Anything in between, if present, is the long option.
 
 * Getopt scanning mode
 
-In getopt you can change the [[https://manpages.ubuntu.com/manpages/focal/en/man1/getopt.1.html#scanning%20modes][scanning mode]] with =+= or =-= as the
+In getopt you can change the [[https://man.archlinux.org/man/getopt.1.en#SCANNING_MODES][scanning mode]] with =+= or =-= as the
 first char in =-o= value. With jetopt use =​,+= or =​,-= for that:
 
 - getopt :: =-o +hd: help,date: ..=
@@ -47,4 +46,29 @@ refine later:
 #+begin_example
   # jetopt hhelp .label: q Vversion
   getopt -o hqV -l help,label:,version ..
+#+end_example
+
+When the options list gets too long, consider embedding =jetopt-embed.sh= into
+your code and use =jetopt_embed= function instead of =getopt= call:
+
+#+begin_example
+  jet_opts=(
+      .script-help
+      hhelp
+
+      .fs:                        # task_fs
+      .module:                    # task_module
+      .no-nvidia                  # no_nvidia
+      .no-tpm                     # no_tpm
+
+      .distro:                    # distro
+      .tmp-dir:                   # tmp_dir
+
+      .dry-run                    # dry_run
+      .hwe-only                   # hwe_only
+      .no-cleanup                 # cleanup
+  )
+
+  opts=$(jetopt_embed "${jet_opts[@]}" -- "$@") || exit
+  eval set -- "$opts"
 #+end_example
